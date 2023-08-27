@@ -303,25 +303,9 @@ display()
 # ///////////////////////////////////some examples for entry of containers//////////////////////////////
 
 
-
-
+df = pd.read_csv('Predicted_Data.csv')
+# x1 = datetime.strptime(df['IN_TIME'][i], '%d-%m-%y %H:%M:%S')
 placement('001','Empty',5,20)
-display()
-placement('002','Empty',4,40)
-display()
-
-placement('004','Empty',4,40)
-display()
-placement('003','Empty',5,20)
-display()
-placement('005','Empty',4,40)
-display()
-placement('006','Empty',4,40)
-display()
-
-placement('004','Filled',4,40)
-display()
-placement('003','Filled',5,20)
 display()
 
 # ///////////////////////////////////some examples for entry of containers ends//////////////////////////////
