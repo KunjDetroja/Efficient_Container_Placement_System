@@ -43,10 +43,26 @@ def Predict_Out_Time():
     df['In_time'] = In
     df['Out_time'] = Out
     df.dropna(axis=0, inplace=True)
+    df.reset_index(inplace=True)
     df1 = pd.get_dummies(data=df['STATUS'], drop_first=True)
-    # df1
     df['L'] = df1
     df.drop(['STATUS'], axis=1, inplace=True)
+    df.drop(columns='index',axis=1,inplace=True)
+    Time_diff = []
+    for i in range(df.shape[0]):
+        Time_diff.append(df['Out_time'][i]-df['In_time'][i])
+        
+    df['Time_Diff'] = Time_diff
+    def find_outliers(df,col):
+        q1=df[col].quantile(0.25)
+        q3=df[col].quantile(0.75)
+        IQR=q3-q1
+        lv=q1-1.5*IQR
+        hv=q3+1.5*IQR
+        df=df[(df[col]<=hv) | (df[col]>=lv)]
+        return df
+    find_outliers(df,'Time_Diff')
+    df.drop(columns='Time_Diff',axis=1,inplace=True)
     x = df.drop('Out_time', axis=1)
     y = df['Out_time']
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=1)
