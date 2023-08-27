@@ -91,3 +91,16 @@ def Predict_Out_Time(Time,size,state):
 
 pre = Predict_Out_Time('14-03-22 15:46:44',20,1)
 print(pre)
+
+df = pd.read_csv('Insert data.csv')
+OutTime=[]
+s=0
+for i in range(df.shape[0]):
+    if df['STATUS'][i] == 'L':
+        s=1
+    else:
+        s=0
+    pre = Predict_Out_Time(df['IN_TIME'][i],df['CON_SIZE'][i],s)
+    OutTime.append(pre)
+print(OutTime)
+df['Out_Time'] = OutTime
