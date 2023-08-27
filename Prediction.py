@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 
-def Predict_Out_Time():
+def Predict_Out_Time(Time,size,state):
     df = pd.read_csv('Past In and Out.csv')
 
     def Milli(X):
@@ -20,7 +20,7 @@ def Predict_Out_Time():
     def Date_Time(X):
         seconds = X / 1000
         date_time = datetime.fromtimestamp(seconds)
-        date_time1 = date_time.strftime('%Y-%m-%d %H:%M:%S')
+        date_time1= date_time.strftime('%d-%m-%y %H:%M:%S')
         return date_time1
 
     IN_Time = []
@@ -80,13 +80,14 @@ def Predict_Out_Time():
     mse = mean_squared_error(y_pred, y_test)
     # mse
     df = pd.read_csv('Insert data.csv')
-    x = df['IN_TIME'][0]
+    x = Time
     x1 = datetime.strptime(x, '%d-%m-%y %H:%M:%S')
     x1m = Milli(x1)
-    Out = [[40, x1m, 1]]
-    OUTTIME = Date_Time(int(lr.predict(Out)[0]))
-    return OUTTIME
+    Out = [[size, x1m, state]]
+    x1=lr.predict(Out)
+    Outtime = datetime.strptime(Date_Time(int(x1)),'%d-%m-%y %H:%M:%S')
+    return Outtime
 
 
-pre = Predict_Out_Time()
+pre = Predict_Out_Time('14-03-22 15:46:44',20,1)
 print(pre)
